@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace DataStructures
 {
@@ -57,11 +58,26 @@ namespace DataStructures
 		/// <returns>Index of the root of <paramref name="i"/>.</returns>
 		public int Find(int i)
 		{
-			// If < 0 this is a root, therefore return i.
-			if (Array[i] < 0) return i;
-			// Else find the root of the index that is the root of i. Set the result in the array for path compression.
-			return Array[i] = Find(Array[i]);
-		}
+			List<int> path = new List<int>();
+			while (true)
+			{
+				// If i < 0, i is a root, therefore end the loop.
+				if (Array[i] < 0) break;
+
+				// Since i is not a root, add it to the values that will be compressed.
+				path.Add(i);
+
+				// And move on to the next index.
+				i = Array[i];
+			}
+
+			// Apply the root to all along the path.
+			foreach (var pathI in path)
+			{
+				Array[pathI] = i;
+			}
+			
+			return i;		}
 
 		/// <summary>
 		/// Execute a union on two indices.
@@ -75,6 +91,9 @@ namespace DataStructures
 			int rootI = Find(i);
 			int rootJ = Find(j);
 
+			// If i and j are in the same set already, skip the union.
+			if (rootI == rootJ) return;
+			
 			// J has the bigger tree, so we flip the roots.
 			if (Array[rootI] > Array[rootJ])
 			{
