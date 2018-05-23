@@ -44,80 +44,15 @@ namespace DataStructuresTests
 			graph.AddEdge(4, 6, 6);
 			graph.AddEdge(6, 5, 1);
 
-			// State variables.
-			var queue = new PriorityQueue<Path>();
-			var processed = new HashSet<int>();
-			var bestPaths = new Dictionary<int, Path>();
-
-			// Insert the first node. The search will start here.
-			queue.Insert(new Path(new List<int> {0}, 0));
-
-			// Run until the queue is empty.
-			while (queue.Count > 0)
+			StepwiseDijkstra<int> sd = new StepwiseDijkstra<int>();
+			sd.Init(graph, 0, 5);
+			while (!sd.Step())
 			{
-				// The path being evaluated this loop.
-				Path pathUnderEval = queue.Dequeue();
-
-				// If the node that this path leads to has already been processed, it already has the best possible
-				// path stored. Therefore the algoritm can skip processing this node.
-				if (processed.Contains(pathUnderEval.LastOfRoute)) continue;
-				processed.Add(pathUnderEval.LastOfRoute);
-
-				// Retrieve the node from the Graph instance.
-				Graph<int>.Node node = graph.Nodes[pathUnderEval.LastOfRoute];
-				foreach (var edge in node.Edges)
-				{
-					// Calculate the length to reach the destination of this edge.
-					double edgeLength = pathUnderEval.Length + edge.Cost;
-
-					// If the destination of this edge is known, and the stored length is less (better) than the
-					// length of the edge being evaluated now, this edge can be skipped. If it is not known, or this
-					// path is better, the algorithm continues.
-					if (bestPaths.ContainsKey(edge.Destination) && bestPaths[edge.Destination].Length < edgeLength) continue;
-
-					// Copy the route of the path and add the destination of the edge to it..
-					var edgeRoute = new List<int>(pathUnderEval.Route);
-					edgeRoute.Add(edge.Destination);
-
-					// Initialize the better path, and store and queue it.
-					var betterPath = new Path(edgeRoute, edgeLength);
-					bestPaths[edge.Destination] = betterPath;
-					queue.Insert(betterPath);
-				}
+				_out.WriteLine("Step");
 			}
-
-			_out.WriteLine($"{graph}");
-			_out.WriteLine($"{string.Join(Environment.NewLine, bestPaths)}");
+			_out.WriteLine($"{string.Join(", ", sd.GetRouteToTarget())}");
 
 			Assert.True(true);
-		}
-
-		class Path : IComparable<Path>
-		{
-			public Path(List<int> route, double length)
-			{
-				var tmp = new int[route.Count];
-				route.CopyTo(tmp);
-				Route = tmp.ToList();
-
-				Length = length;
-			}
-
-			public List<int> Route { get; }
-			public int LastOfRoute => Route.Last();
-			public double Length { get; set; }
-
-			public int CompareTo(Path other)
-			{
-				if (Length < other.Length) return -1;
-				if (Length > other.Length) return 1;
-				return 0;
-			}
-
-			public override string ToString()
-			{
-				return $"{Length} : {string.Join(", ", Route)}";
-			}
 		}
 	}
 }
