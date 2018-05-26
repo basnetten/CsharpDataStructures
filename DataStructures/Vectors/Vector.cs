@@ -18,14 +18,14 @@ namespace DataStructures.Vectors
 		private bool   _lengthCached;
 		private double _cachedLength;
 
-		public Vector(double[] data)
-		{
-			Store = data;
-		}
-
 		public Vector(int count)
 		{
 			Store = new double[count];
+		}
+
+		private Vector(double[] data)
+		{
+			Store = data;
 		}
 
 		/// <summary>
@@ -36,9 +36,7 @@ namespace DataStructures.Vectors
 			Store = new double[0];
 		}
 
-		/// <summary>
-		/// The length of this vector.
-		/// </summary>
+		/// <inheritdoc />
 		public double Length
 		{
 			get
@@ -50,9 +48,7 @@ namespace DataStructures.Vectors
 			}
 		}
 
-		/// <summary>
-		/// The number of elements in this vector.
-		/// </summary>
+		/// <inheritdoc />
 		public int Count => Store.Length;
 
 		public double this[int index] => Store[index];
