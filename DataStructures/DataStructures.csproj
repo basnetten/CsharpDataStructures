@@ -41,6 +41,8 @@
     <Compile Include="DisjointSet.cs" />
     <Compile Include="Graphs\Graph.cs" />
     <Compile Include="Graphs\StepwiseDijkstra.cs" />
+    <Compile Include="Matrices\IMatrix.cs" />
+    <Compile Include="Matrices\Matrix.cs" />
     <Compile Include="PriorityQueue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Vectors\IVector.cs" />
