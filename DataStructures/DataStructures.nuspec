@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package>
+    <metadata>
+        <id>BasNetten.DataStructures</id>
+        <version>$version$</version>
+        <title>Bas Netten Data Structures</title>
+        <authors>Bas Netten</authors>
+        <owners>Bas Netten</owners>
+        <licenseUrl>https://github.com/basnetten/CsharpDataStructures/blob/master/LICENSE</licenseUrl>
+        <projectUrl>https://github.com/basnetten/CsharpDataStructures</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>$description$</description>
+        <copyright>Copyright 2018</copyright>
+        <tags>Data Structures</tags>
+    </metadata>
+</package>
