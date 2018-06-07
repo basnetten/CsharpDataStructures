@@ -1,6 +1,8 @@
-﻿namespace DataStructures.Vectors
+﻿using System.Collections.Generic;
+
+namespace DataStructures.Vectors
 {
-	public interface IVector
+	public interface IVector : IEnumerable<double>
 	{
 		/// <summary>
 		/// The number of elements in the vector.

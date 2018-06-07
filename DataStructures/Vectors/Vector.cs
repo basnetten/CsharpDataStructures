@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace DataStructures.Vectors
@@ -10,13 +12,18 @@ namespace DataStructures.Vectors
 		/// </summary>
 		private const string ExCountNotEqual = "Vector Counts are not equal.";
 
+		private const string ExIndexOutOfRange = "Attempting to add too many elements to vector.";
+
+		private bool _lengthCached;
+
+		private double _cachedLength;
+
+		private int _i;
+
 		/// <summary>
 		/// The array with the data for this vector.
 		/// </summary>
 		private double[] Store { get; }
-
-		private bool   _lengthCached;
-		private double _cachedLength;
 
 		public Vector(int count)
 		{
@@ -48,11 +55,13 @@ namespace DataStructures.Vectors
 			}
 		}
 
-		/// <inheritdoc />
 		public int Count => Store.Length;
 
 		public double this[int index] => Store[index];
 
+		/**
+		 * IVector implementation.
+		 */
 		IVector IVector.Add(IVector op2)           => Add(op2);
 		IVector IVector.Sub(IVector op2)           => Sub(op2);
 		double IVector. Mul(IVector op2)           => DotProduct(op2);
@@ -62,6 +71,18 @@ namespace DataStructures.Vectors
 		IVector IVector.Normalized()               => Normalized();
 		IVector IVector.Truncated(double   length) => Truncated(length);
 		IVector IVector.FromArray(double[] data)   => FromArray(data);
+
+		/**
+		 * IVector : IEnumerable implementation.
+		 */
+		IEnumerator IEnumerable.                GetEnumerator() => new Enumerator(this);
+		IEnumerator<double> IEnumerable<double>.GetEnumerator() => new Enumerator(this);
+
+		public void Add(double item)
+		{
+			AssertIndexInRange(Count, _i);
+			Store[_i++] = item;
+		}
 
 		public Vector Add(IVector op2)
 		{
@@ -177,6 +198,44 @@ namespace DataStructures.Vectors
 		public static Vector operator /(Vector a, double b) => a.Div(b);
 		public static Vector operator /(double a, Vector b) => b.Div(a);
 
+		public struct Enumerator : IEnumerator<double>
+		{
+			private readonly Vector _vector;
+
+			private int    _nextIndex;
+			private double _current;
+
+			internal Enumerator(Vector vector)
+			{
+				_vector    = vector;
+				_nextIndex = 0;
+				_current   = default(double);
+			}
+
+			public void Dispose()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				if (_nextIndex == _vector.Count) return false;
+
+				_current = _vector[_nextIndex];
+				_nextIndex++;
+				return true;
+			}
+
+			public void Reset()
+			{
+				_nextIndex = 0;
+				_current   = default(double);
+			}
+
+			public double Current => _current;
+
+			object IEnumerator.Current => Current;
+		}
+
 		/// <summary>
 		/// Tests the two vectors for equal counts.
 		/// </summary>
@@ -193,6 +252,12 @@ namespace DataStructures.Vectors
 			if (op2 == null) throw new ArgumentNullException(nameof(op2));
 
 			if (op1.Count != op2.Count) throw new ArgumentException(ExCountNotEqual, nameof(op2));
+		}
+
+		[Conditional("DEBUG")]
+		private static void AssertIndexInRange(int count, int index)
+		{
+			if (index >= count) throw new IndexOutOfRangeException(ExIndexOutOfRange);
 		}
 	}
 }
