@@ -1,6 +1,8 @@
-﻿namespace DataStructures.Matrices
+﻿using System.Collections.Generic;
+
+namespace DataStructures.Matrices
 {
-	public interface IMatrix
+	public interface IMatrix : IEnumerable<IEnumerable<double>>
 	{
 		/// <summary>
 		/// The number of rows in the matrix.
