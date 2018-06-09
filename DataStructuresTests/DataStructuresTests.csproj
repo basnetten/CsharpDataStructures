@@ -56,6 +56,8 @@
     <Compile Include="MatrixTests.cs" />
     <Compile Include="PriorityQueueTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Vectors\VectorBuilderTests.cs" />
+    <Compile Include="Vectors\VectorInterfaceTests.cs" />
     <Compile Include="VectorTests.cs" />
   </ItemGroup>
   <ItemGroup>

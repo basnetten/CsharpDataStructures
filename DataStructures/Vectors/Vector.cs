@@ -71,6 +71,7 @@ namespace DataStructures.Vectors
 		IVector IVector.Normalized()               => Normalized();
 		IVector IVector.Truncated(double   length) => Truncated(length);
 		IVector IVector.FromArray(double[] data)   => FromArray(data);
+		IVector IVector.Build(List<double> data)   => Build(data);
 
 		/**
 		 * IVector : IEnumerable implementation.
@@ -181,6 +182,13 @@ namespace DataStructures.Vectors
 			return new Vector(data);
 		}
 
+		public static Vector Build(List<double> data)
+		{
+			double[] array = data.ToArray();
+
+			return new Vector(array);
+		}
+
 		public override string ToString()
 		{
 			return $"Vector{Count}<{string.Join(", ", Store)}>";
@@ -234,6 +242,10 @@ namespace DataStructures.Vectors
 			public double Current => _current;
 
 			object IEnumerator.Current => Current;
+		}
+
+		public class Builder : VectorBuilder<Vector>
+		{
 		}
 
 		/// <summary>

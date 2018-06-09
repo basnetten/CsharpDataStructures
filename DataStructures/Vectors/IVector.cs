@@ -40,5 +40,7 @@ namespace DataStructures.Vectors
 		/// <param name="data">The data to put into the vector.</param>
 		/// <returns>A new vector object with data.</returns>
 		IVector FromArray(params double[] data);
+
+		IVector Build(List<double> data);
 	}
 }
