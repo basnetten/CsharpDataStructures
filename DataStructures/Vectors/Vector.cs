@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using DataStructures.Matrices;
 
 namespace DataStructures.Vectors
 {
@@ -25,22 +26,22 @@ namespace DataStructures.Vectors
 		/// </summary>
 		private double[] Store { get; }
 
-		public Vector(int count)
-		{
-			Store = new double[count];
-		}
-
-		private Vector(double[] data)
-		{
-			Store = data;
-		}
-
 		/// <summary>
 		/// Initializes an empty vector, with 0 elements. Intended for testing.
 		/// </summary>
 		public Vector()
 		{
 			Store = new double[0];
+		}
+
+		public Vector(int count)
+		{
+			Store = new double[count];
+		}
+
+		internal Vector(double[] data)
+		{
+			Store = data;
 		}
 
 		/// <inheritdoc />
@@ -205,6 +206,19 @@ namespace DataStructures.Vectors
 		public static Vector operator *(double a, Vector b) => b.Mul(a);
 		public static Vector operator /(Vector a, double b) => a.Div(b);
 		public static Vector operator /(double a, Vector b) => b.Div(a);
+
+		/// <summary>
+		/// Convert a Vector to a Matrix. The vector is converted as if vertical.
+		/// </summary>
+		public static implicit operator Matrix(Vector vector)
+		{
+			double[,] data = new double[vector.Count, 1];
+
+			for (int i = 0; i < vector.Count; i++)
+				data[i, 0] = vector[i];
+
+			return new Matrix(data);
+		}
 
 		public struct Enumerator : IEnumerator<double>
 		{

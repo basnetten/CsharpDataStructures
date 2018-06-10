@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
+using DataStructures.Matrices;
 using DataStructures.Vectors;
 using Xunit;
 using Xunit.Abstractions;
@@ -211,6 +212,42 @@ namespace DataStructuresTests
 				_out.WriteLine($"ex: {expected[i]}, ac: {actual[i]}");
 				Assert.Equal(expected[i], actual[i]);
 			}
+		}
+
+		#endregion
+
+		#region Cast_Tests
+
+		[Theory]
+		[MemberData(nameof(VectorCast_Should_Cast_Data))]
+		public void VectorCast_Should_Cast(Vector vector, Matrix expected)
+		{
+			Matrix actual = vector;
+
+			_out.WriteLine(actual.ToString());
+
+			for (int i = 0; i < expected.RowCount; i++)
+				for (int j = 0; j < expected.ColCount; j++)
+					Assert.Equal(expected[i, j], actual[i, j]);
+		}
+
+		public static IEnumerable<object> VectorCast_Should_Cast_Data()
+		{
+			yield return new object[]
+			{
+				new Vector.Builder { 1, 2, 3, 4 }.Get(),
+				new Matrix { 1, 2, 3, 4 },
+			};
+			yield return new object[]
+			{
+				new Vector.Builder { 0 }.Get(),
+				new Matrix { 0 },
+			};
+			yield return new object[]
+			{
+				new Vector.Builder { 1, 4, 7 }.Get(),
+				new Matrix { 1, 4, 7, },
+			};
 		}
 
 		#endregion

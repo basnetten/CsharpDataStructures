@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using DataStructures.Vectors;
 
 namespace DataStructures.Matrices
 {
@@ -19,7 +20,7 @@ namespace DataStructures.Matrices
 			Store = new double[0, 0];
 		}
 
-		private Matrix(double[,] data)
+		internal Matrix(double[,] data)
 		{
 			Store = data;
 		}
@@ -141,6 +142,19 @@ namespace DataStructures.Matrices
 		public static Matrix operator *(Matrix a, Matrix b) => a.Mul(b);
 		public static Matrix operator *(Matrix a, double b) => a.Mul(b);
 		public static Matrix operator *(double a, Matrix b) => b.Mul(a);
+
+		/// <summary>
+		/// Convert a Matrix to a Vector. The new vector is converted as if vertical, i.e., the first column.
+		/// </summary>
+		public static explicit operator Vector(Matrix matrix)
+		{
+			double[] data = new double[matrix.RowCount];
+			
+			for (int i = 0; i < matrix.RowCount; i++)
+				data[i] = matrix[i, 0];
+			
+			return new Vector(data);
+		}
 
 		internal static void CopyTo(double[,] original, double[,] copy)
 		{
