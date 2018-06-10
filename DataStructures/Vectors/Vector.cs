@@ -283,6 +283,9 @@ namespace DataStructures.Vectors
 		[Conditional("DEBUG")]
 		private static void AssertIndexInRange(int count, int index)
 		{
+			if (count <= 0) throw new ArgumentOutOfRangeException(nameof(count));
+			if (index <= 0) throw new ArgumentOutOfRangeException(nameof(index));
+			
 			if (index >= count) throw new IndexOutOfRangeException(ExIndexOutOfRange);
 		}
 	}
