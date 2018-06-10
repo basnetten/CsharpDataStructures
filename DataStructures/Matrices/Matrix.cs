@@ -36,6 +36,7 @@ namespace DataStructures.Matrices
 		IMatrix IMatrix.Mul(IMatrix         op2)  => Mul(op2);
 		IMatrix IMatrix.Mul(double          sca)  => Mul(sca);
 		IMatrix IMatrix.FromArray(double[,] data) => FromArray(data);
+		IMatrix IMatrix.Transposed()              => Transposed();
 
 		IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
@@ -100,6 +101,17 @@ namespace DataStructures.Matrices
 			for (int row = 0; row < RowCount; row++)
 				for (int col = 0; col < ColCount; col++)
 					data[row, col] = Store[row, col] * sca;
+
+			return new Matrix(data);
+		}
+
+		public Matrix Transposed()
+		{
+			double[,] data = new double[ColCount, RowCount];
+
+			for (int i = 0; i < RowCount; i++)
+				for (int j = 0; j < ColCount; j++)
+					data[j, i] = Store[i, j];
 
 			return new Matrix(data);
 		}

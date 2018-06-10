@@ -24,6 +24,8 @@ namespace DataStructures.Matrices
 		IMatrix Mul(IMatrix op2);
 		IMatrix Mul(double sca);
 
+		IMatrix Transposed();
+
 		/// <summary>
 		/// Creates a new object with the data specified.
 		/// </summary>

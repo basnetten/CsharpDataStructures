@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using DataStructures.Matrices;
 using Xunit;
 using Xunit.Abstractions;
@@ -125,5 +126,109 @@ namespace DataStructuresTests
 			};
 			_out.WriteLine(m.ToString());
 		}
+
+		#region Transposed_Tests
+
+		[Theory]
+		[MemberData(nameof(Transpose_Should_Transpose_When_Square_Data))]
+		[MemberData(nameof(Transpose_Should_Transpose_When_Rectangular_Data))]
+		public void Transpose_Should_Transpose(IMatrix matrix, double[,] expected)
+		{
+			IMatrix actual = matrix.Transposed();
+
+			for (int i = 0; i < actual.RowCount; i++)
+				for (int j = 0; j < actual.ColCount; j++)
+					Assert.Equal(expected[i, j], actual[i, j]);
+		}
+
+		public static IEnumerable<object> Transpose_Should_Transpose_When_Square_Data()
+		{
+			yield return new object[]
+			{
+				new Matrix
+				{
+					{ 1, 2, 3 },
+					{ 4, 5, 6 },
+					{ 7, 8, 9 },
+				},
+				new double[,]
+				{
+					{ 1, 4, 7 },
+					{ 2, 5, 8 },
+					{ 3, 6, 9 },
+				}
+			};
+
+			yield return new object[]
+			{
+				new Matrix
+				{
+					{ 1, 2 },
+					{ 4, 5 },
+				},
+				new double[,]
+				{
+					{ 1, 4 },
+					{ 2, 5 },
+				}
+			};
+
+			yield return new object[]
+			{
+				new Matrix
+				{
+					{ 1 },
+				},
+				new double[,]
+				{
+					{ 1 },
+				}
+			};
+		}
+
+		public static IEnumerable<object> Transpose_Should_Transpose_When_Rectangular_Data()
+		{
+			yield return new object[]
+			{
+				new Matrix
+				{
+					{ 1, 2, 3 },
+					{ 4, 5, 6 },
+				},
+				new double[,]
+				{
+					{ 1, 4 },
+					{ 2, 5 },
+					{ 3, 6 },
+				}
+			};
+
+			yield return new object[]
+			{
+				new Matrix
+				{
+					{ 1, 2 },
+				},
+				new double[,]
+				{
+					{ 1 },
+					{ 2 },
+				}
+			};
+
+			yield return new object[]
+			{
+				new Matrix
+				{
+					{ 1 },
+				},
+				new double[,]
+				{
+					{ 1 },
+				}
+			};
+		}
+
+		#endregion
 	}
 }
