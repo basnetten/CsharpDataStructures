@@ -142,6 +142,8 @@ namespace DataStructures.Matrices
 		public static Matrix operator *(Matrix a, Matrix b) => a.Mul(b);
 		public static Matrix operator *(Matrix a, double b) => a.Mul(b);
 		public static Matrix operator *(double a, Matrix b) => b.Mul(a);
+		public static Vector operator *(Matrix a, Vector b) => (Vector) a.Mul((Matrix) b);
+		public static Vector operator *(Vector a, Matrix b) => (Vector) b.Mul((Matrix) a);
 
 		/// <summary>
 		/// Convert a Matrix to a Vector. The new vector is converted as if vertical, i.e., the first column.
@@ -149,10 +151,10 @@ namespace DataStructures.Matrices
 		public static explicit operator Vector(Matrix matrix)
 		{
 			double[] data = new double[matrix.RowCount];
-			
+
 			for (int i = 0; i < matrix.RowCount; i++)
 				data[i] = matrix[i, 0];
-			
+
 			return new Vector(data);
 		}
 
